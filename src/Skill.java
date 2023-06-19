@@ -17,6 +17,7 @@ public class Skill {
                 "name='" + name + '\'' +
                 ", bonus=" + bonus +
                 ", proficient=" + proficient +
+                ", stat=" + stat.getStatName() +
                 '}';
     }
 

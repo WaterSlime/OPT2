@@ -20,6 +20,7 @@ public class Main {
             switch (menuOption) {
                 case "1":
                     newCharDialogue(choose);
+                    menuOption = "0";
                     break;
                 case "9":
                     break;
@@ -38,7 +39,7 @@ public class Main {
         do {
             System.out.println("What class would you like the character to be:" +
                     "\nbarbarian, bard, cleric, druid, fighter, monk, paladin, ranger, rogue, sorcerer, warlock, wizard");
-            classString = scanner.next();
+            classString = scanner.next().toLowerCase();
             if (!classes.contains(classString)) {
                 System.out.println("Incorrect input, please try again");
             }
@@ -54,11 +55,11 @@ public class Main {
         do {
             System.out.println("What species would you like the character to be:" +
                     "\ndragonborn, dwarf, elf, gnome, half-elf, half-orc, halfling, human, tiefling");
-            speciesString = scanner.next();
+            speciesString = scanner.next().toLowerCase();
             if (!species.contains(speciesString)) {
                 System.out.println("Incorrect input, please try again");
             }
-        } while (!species.contains(species));
+        } while (!species.contains(speciesString));
         System.out.println("Give your character a name: ");
         name = scanner.next();
     }

@@ -1,26 +1,44 @@
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class playerClass {
+    private static ArrayList<String> skillList = new ArrayList<String>(
+            Arrays.asList("Athletics", "Acrobatics", "Sleight of Hand", "Stealth", "Arcana", "History", "Investigation", "Nature", "Religion", "Animal Handling",
+            "Insight", "Medicine", "Perception", "Survival", "Deception", "Intimidation", "Performance", "Persuasion"));
     private String name;
     private String subclass;
     private int level;
     private ArrayList<Stat> stats = new ArrayList<Stat>();
-    private ArrayList<Skill> skill = new ArrayList<Skill>();
+    private ArrayList<Skill> skills = new ArrayList<Skill>();
+    private ArrayList<String> proficiencies = new ArrayList<String>();
+    private ArrayList<Feature> features = new ArrayList<Feature>();
     private ArrayList<Item> inventory = new ArrayList<Item>();
 
-//    public static playerClass builderFromJSONObj(String name, int level, String className) {
-//
-//    }
+    public playerClass(String name, String subclass, int level, ArrayList<Stat> stats, ArrayList<Skill> skills, ArrayList<Feature> features, ArrayList<Item> inventory) {
+        this.name = name;
+        this.subclass = subclass;
+        this.level = level;
+        this.stats = stats;
+        this.skills = skills;
+        this.features = features;
+        this.inventory = inventory;
+    }
 
-//    public static playerClass playerClassBuilderFromJSONObj(JSONObject obj) {
-//
-//    }
 
     public static void main(String[] args) {
         System.out.println(statNumberGenerator());
         System.out.println(statGenerator(statNumberGenerator()));
+    }
+
+    public static playerClass playerClassBuilderFromJSONObj(String name, int level, String className, String species, JSONObject obj) {
+        String subclass = obj.getJSONArray("subclasses").getJSONObject(1).get("name").toString();
+        ArrayList<Stat> stats = statGenerator(statNumberGenerator());
+        ArrayList<Skill> skills = skillGenerator(stats);
+
+
+        return new playerClass("Bob", subclass, level, stats, new ArrayList<Skill>(), new ArrayList<Feature>(), new ArrayList<Item>());
     }
 
     public static ArrayList<Integer> statNumberGenerator() {
@@ -56,6 +74,29 @@ public class playerClass {
         return statList;
     }
 
+    private static ArrayList<Skill> skillGenerator(ArrayList<Stat> stats) {
+        ArrayList<Skill> skills = new ArrayList<Skill>();
+        skills.add(new Skill(skillList.get(0), 0, false, stats.get(0)));
+        skills.add(new Skill(skillList.get(1), 0, false, stats.get(1)));
+        skills.add(new Skill(skillList.get(2), 0, false, stats.get(1)));
+        skills.add(new Skill(skillList.get(3), 0, false, stats.get(1)));
+        skills.add(new Skill(skillList.get(4), 0, false, stats.get(3)));
+        skills.add(new Skill(skillList.get(5), 0, false, stats.get(3)));
+        skills.add(new Skill(skillList.get(6), 0, false, stats.get(3)));
+        skills.add(new Skill(skillList.get(7), 0, false, stats.get(3)));
+        skills.add(new Skill(skillList.get(8), 0, false, stats.get(3)));
+        skills.add(new Skill(skillList.get(9), 0, false, stats.get(4)));
+        skills.add(new Skill(skillList.get(10), 0, false, stats.get(4)));
+        skills.add(new Skill(skillList.get(11), 0, false, stats.get(4)));
+        skills.add(new Skill(skillList.get(12), 0, false, stats.get(4)));
+        skills.add(new Skill(skillList.get(13), 0, false, stats.get(4)));
+        skills.add(new Skill(skillList.get(14), 0, false, stats.get(5)));
+        skills.add(new Skill(skillList.get(15), 0, false, stats.get(5)));
+        skills.add(new Skill(skillList.get(16), 0, false, stats.get(5)));
+        skills.add(new Skill(skillList.get(17), 0, false, stats.get(5)));
+        return skills;
+    }
+
     public String getName() {
         return name;
     }
@@ -88,12 +129,20 @@ public class playerClass {
         this.stats = stats;
     }
 
-    public ArrayList<Skill> getSkill() {
-        return skill;
+    public ArrayList<Skill> getSkills() {
+        return skills;
     }
 
-    public void setSkill(ArrayList<Skill> skill) {
-        this.skill = skill;
+    public void setSkills(ArrayList<Skill> skills) {
+        this.skills = skills;
+    }
+
+    public ArrayList<Feature> getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(ArrayList<Feature> features) {
+        this.features = features;
     }
 
     public ArrayList<Item> getInventory() {
