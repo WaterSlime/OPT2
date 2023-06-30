@@ -62,5 +62,7 @@ public class Main {
         } while (!species.contains(speciesString));
         System.out.println("Give your character a name: ");
         name = scanner.next();
+        playerClass newPlayer = playerClass.playerClassBuilderFromJSONObj(name, classString, level, speciesString, APICommunication.APIRequest(APICommunication.APIRequestBuilder("class", classString)));
+        newPlayer.printString();
     }
 }

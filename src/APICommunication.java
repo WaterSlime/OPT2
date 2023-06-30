@@ -17,14 +17,16 @@ public class APICommunication {
 
     //Takes input for the type, turns it into the correct API url to use for an API request
     public static String APIRequestBuilder(String type, String search) {
-        String apiURL = "https://www.dnd5eapi.co/api/";
+        String apiURL = "https://www.dnd5eapi.co";
         if (type.equals("class") || type.equals("levels")) {
-            apiURL += "classes";
+            apiURL += "/api/classes/" + search;
+            if (type.equals("levels")) {
+                apiURL += ("/levels/");
+            }
         } else if (type.equals("equipment")) {
-            apiURL += "equipment/" + search;
-        }
-        if (type.equals("class")) {
-            apiURL += "/" + search;
+            apiURL += "/api/equipment/" + search;
+        } else if (type.equals("URL")) {
+            apiURL += search;
         }
 
         return apiURL;
@@ -42,5 +44,18 @@ public class APICommunication {
             System.out.println("Something went wrong with the HTTP request");
         }
         return new JSONObject(jsonString);
+    }
+
+    public static JSONArray APIRequest(String APIURL, boolean array) {
+        String jsonString = "";
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(APIURL)).GET().build();
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            jsonString = response.body();
+        } catch (Exception e) {
+            System.out.println("Something went wrong with the HTTP request");
+        }
+        return new JSONArray(jsonString);
     }
 }
