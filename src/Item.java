@@ -2,12 +2,15 @@ import org.json.*;
 
 public class Item {
     private String name;
+    private String description;
 
-    public Item(String name) {
+    public Item(String name, String desc) {
         this.name = name;
+        this.description = desc;
     }
     public static Item itemBuilderFromJSONObj(JSONObject obj) {
-        return new Item(obj.get("name").toString());
+        String desc = obj.getJSONArray("desc").get(0).toString();
+        return new Item(obj.get("name").toString(), desc);
     }
 
     @Override
@@ -25,4 +28,11 @@ public class Item {
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

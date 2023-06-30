@@ -97,6 +97,8 @@ public class playerClass {
         ArrayList<Item> inventory = new ArrayList<Item>();
         inventory.add(Weapon.weaponBuilderFromJSONObj(APICommunication.APIRequest(APICommunication.APIRequestBuilder("equipment", "longsword"))));
         inventory.add(Weapon.weaponBuilderFromJSONObj(APICommunication.APIRequest(APICommunication.APIRequestBuilder("equipment", "blowgun"))));
+        inventory.add(Armour.armourBuilderFromJSONObj(APICommunication.APIRequest(APICommunication.APIRequestBuilder("equipment", "chain-mail"))));
+        inventory.add(Item.itemBuilderFromJSONObj(APICommunication.APIRequest(APICommunication.APIRequestBuilder("equipment", "abacus"))));
         return new playerClass(name, subclass, level, species, stats, skills, proficiencies, features, inventory);
     }
 
