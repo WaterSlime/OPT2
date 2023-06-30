@@ -94,8 +94,10 @@ public class playerClass {
             k++;
         }
         //generate inventory from character generator
-
-        return new playerClass(name, subclass, level, species, stats, skills, proficiencies, features, new ArrayList<Item>());
+        ArrayList<Item> inventory = new ArrayList<Item>();
+        inventory.add(Weapon.weaponBuilderFromJSONObj(APICommunication.APIRequest(APICommunication.APIRequestBuilder("equipment", "longsword"))));
+        inventory.add(Weapon.weaponBuilderFromJSONObj(APICommunication.APIRequest(APICommunication.APIRequestBuilder("equipment", "blowgun"))));
+        return new playerClass(name, subclass, level, species, stats, skills, proficiencies, features, inventory);
     }
 
     public static ArrayList<Integer> statNumberGenerator() {
@@ -182,6 +184,9 @@ public class playerClass {
                     System.out.println(this.features.get(i).getName());
                     System.out.println(WordWrap.from(this.features.get(i).getDescription().substring(2, this.features.get(i).getDescription().length() - 2)).maxWidth(200).insertHyphens(true).wrap() + "\n");
                 }
+                for (Item i : this.getInventory()) {
+                    System.out.println(i.toString());
+        }
     }
 
     public String getName() {

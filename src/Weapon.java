@@ -43,13 +43,7 @@ public class Weapon extends Item {
 
     @Override
     public String toString() {
-        return "Weapon{" +
-                "name='" + this.getName() + '\'' +
-                ", weaponType='" + weaponType + '\'' +
-                ", weaponDamage='" + weaponDamage + '\'' +
-                ", damageType='" + damageType + '\'' +
-                ", weaponProperties=" + weaponProperties +
-                '}';
+        return String.format("%-20s%-20s%-20s%-20s\n%s", this.getName(), this.getWeaponType(), this.getWeaponDamage(), this.getDamageType(), this.getWeaponProperties());
     }
 
 
