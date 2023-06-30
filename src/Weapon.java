@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.davidmoten.text.utils.WordWrap;
 import org.json.*;
 
 public class Weapon extends Item {
@@ -9,12 +10,9 @@ public class Weapon extends Item {
     private String damageType;
     private ArrayList<String> weaponProperties = new ArrayList<String>();
 
-    public static void main(String[] args) {
-        System.out.println(weaponBuilderFromJSONObj(APICommunication.APIRequest(APICommunication.APIRequestBuilder("equipment", "longsword"))).toString());
-    }
 
-    public Weapon(String name, String weaponType, String weaponDamage, String damageType, ArrayList<String> weaponProperties) {
-        super(name);
+    public Weapon(String name, String desc, String weaponType, String weaponDamage, String damageType, ArrayList<String> weaponProperties) {
+        super(name, desc);
         this.weaponType = weaponType;
         this.weaponDamage = weaponDamage;
         this.damageType = damageType;
@@ -23,6 +21,10 @@ public class Weapon extends Item {
 
     public static Weapon weaponBuilderFromJSONObj(JSONObject obj) {
         String name = obj.get("name").toString();
+        String desc = "";
+        if (obj.getJSONArray("desc").length() != 0) {
+            desc = obj.getJSONArray("desc").get(0).toString();
+        }
         String type = obj.get("category_range").toString();
         String damage = obj.getJSONObject("damage").get("damage_dice").toString();
         if (obj.has("two_handed_damage")) {
@@ -38,18 +40,16 @@ public class Weapon extends Item {
                 properties.add(nextJSON.get("name").toString());
             }
         }
-        return new Weapon(name, type, damage, damageType, properties);
+        return new Weapon(name, desc, type, damage, damageType, properties);
     }
 
     @Override
     public String toString() {
-        return "Weapon{" +
-                "name='" + this.getName() + '\'' +
-                ", weaponType='" + weaponType + '\'' +
-                ", weaponDamage='" + weaponDamage + '\'' +
-                ", damageType='" + damageType + '\'' +
-                ", weaponProperties=" + weaponProperties +
-                '}';
+        String res = String.format("%-20s%-20s%-20s%-20s\n%s", this.getName(), this.getWeaponType(), this.getWeaponDamage(), this.getDamageType(), this.getWeaponProperties());
+        if (!this.getDescription().equals("")) {
+            res +=  "\n" + WordWrap.from(this.getDescription()).maxWidth(200).insertHyphens(true).wrap();
+        }
+        return res;
     }
 
 
