@@ -8,20 +8,13 @@ import org.json.*;
 
 public class APICommunication {
 
-    public static void main(String[] args) {
-
-//        String jsonRequestResult = APIRequest(APIRequestBuilder("class", "cleric"));
-//        JSONObject obj = new JSONObject(jsonRequestResult);
-
-    }
-
-    //Takes input for the type, turns it into the correct API url to use for an API request
+    //Takes input for the type and the serach, and generates a url to use for an API request
     public static String APIRequestBuilder(String type, String search) {
         String apiURL = "https://www.dnd5eapi.co";
         if (type.equals("class") || type.equals("levels")) {
             apiURL += "/api/classes/" + search;
             if (type.equals("levels")) {
-                apiURL += ("/levels/");
+                apiURL += ("/levels");
             }
         } else if (type.equals("equipment")) {
             apiURL += "/api/equipment/" + search;
@@ -46,6 +39,7 @@ public class APICommunication {
         return new JSONObject(jsonString);
     }
 
+    //Overloading of the APIRequest method to allow the same method to be used for JSONArrays instead of JSONObjects
     public static JSONArray APIRequest(String APIURL, boolean array) {
         String jsonString = "";
         HttpClient client = HttpClient.newHttpClient();

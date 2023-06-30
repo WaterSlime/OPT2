@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class playerClass {
+    //prerequisite reference lists
     private static ArrayList<String> skillList = new ArrayList<String>(
             Arrays.asList("Athletics", "Acrobatics", "Sleight of Hand", "Stealth", "Arcana", "History", "Investigation", "Nature", "Religion", "Animal Handling",
             "Insight", "Medicine", "Perception", "Survival", "Deception", "Intimidation", "Performance", "Persuasion"));
@@ -35,12 +36,7 @@ public class playerClass {
         this.inventory = inventory;
     }
 
-    public static void main(String[] args) {
-        JSONObject obj = APICommunication.APIRequest(APICommunication.APIRequestBuilder("class", "fighter"));
-        playerClass pla1 = playerClassBuilderFromJSONObj("Bob", "fighter", 5, "Goblin", APICommunication.APIRequest(APICommunication.APIRequestBuilder("class", "fighter")));
-        pla1.printString();
-    }
-
+    //Takes the inputs given by a user and a JSON object and generates a full playerClass from it
     public static playerClass playerClassBuilderFromJSONObj(String name, String className, int level, String species, JSONObject obj) {
         String subclass = obj.getJSONArray("subclasses").getJSONObject(0).get("name").toString();
         ArrayList<Stat> stats = statGenerator(statNumberGenerator());
@@ -98,10 +94,13 @@ public class playerClass {
         inventory.add(Weapon.weaponBuilderFromJSONObj(APICommunication.APIRequest(APICommunication.APIRequestBuilder("equipment", "longsword"))));
         inventory.add(Weapon.weaponBuilderFromJSONObj(APICommunication.APIRequest(APICommunication.APIRequestBuilder("equipment", "blowgun"))));
         inventory.add(Armour.armourBuilderFromJSONObj(APICommunication.APIRequest(APICommunication.APIRequestBuilder("equipment", "chain-mail"))));
-        inventory.add(Item.itemBuilderFromJSONObj(APICommunication.APIRequest(APICommunication.APIRequestBuilder("equipment", "abacus"))));
+        Item abacus = Item.itemBuilderFromJSONObj(APICommunication.APIRequest(APICommunication.APIRequestBuilder("equipment", "abacus")));
+        abacus.setDescription("A counting frame, consisting of a wooden frame with spokes and beads, used for calculations. ");
+        inventory.add(abacus);
         return new playerClass(name, subclass, level, species, stats, skills, proficiencies, features, inventory);
     }
 
+    //Generates an arraylist of 6 random stats within the range of 6-18, using a common DnD stat method, rolling 4 6-sided dice and keeping the 3 highest.
     public static ArrayList<Integer> statNumberGenerator() {
         ArrayList<Integer> numbers = new ArrayList<Integer>();
         for (int i = 0; i < 30; i++) {
@@ -124,17 +123,19 @@ public class playerClass {
         return numbers;
     }
 
+    //Populates an arraylist of stats with a given list of numbers
     public static ArrayList<Stat> statGenerator(ArrayList<Integer> statNumbers) {
         ArrayList<Stat> statList = new ArrayList<Stat>();
-        statList.add(new Stat("Strength", statNumbers.get(0), true));
+        statList.add(new Stat("Strength", statNumbers.get(0), false));
         statList.add(new Stat("Dexterity", statNumbers.get(1), false));
         statList.add(new Stat("Constitution", statNumbers.get(2), false));
-        statList.add(new Stat("Intelligence", statNumbers.get(3), true));
+        statList.add(new Stat("Intelligence", statNumbers.get(3), false));
         statList.add(new Stat("Wisdom", statNumbers.get(4), false));
         statList.add(new Stat("Charisma", statNumbers.get(5), false));
         return statList;
     }
 
+    //Populates an arraylist of skill with a given list of stats
     private static ArrayList<Skill> skillGenerator(ArrayList<Stat> stats) {
         ArrayList<Skill> skills = new ArrayList<Skill>();
         skills.add(new Skill(skillList.get(0), 0, false, stats.get(0)));
@@ -158,6 +159,7 @@ public class playerClass {
         return skills;
     }
 
+    //Prints out the contents of the playerClass in a clean overview
     public void printString() {
         System.out.println(String.format("%-20s%-20s%-20s%-20s\n", "Name:", this.getName(), "Subclass:", this.getSubclass()) +
                 String.format("%-20s%-20d%-20s%-20s\n", "Level:", this.getLevel(), "Species:", this.getSpecies()) +

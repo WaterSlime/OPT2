@@ -10,9 +10,6 @@ public class Weapon extends Item {
     private String damageType;
     private ArrayList<String> weaponProperties = new ArrayList<String>();
 
-    public static void main(String[] args) {
-        System.out.println(weaponBuilderFromJSONObj(APICommunication.APIRequest(APICommunication.APIRequestBuilder("equipment", "longsword"))).toString());
-    }
 
     public Weapon(String name, String desc, String weaponType, String weaponDamage, String damageType, ArrayList<String> weaponProperties) {
         super(name, desc);
@@ -48,7 +45,7 @@ public class Weapon extends Item {
 
     @Override
     public String toString() {
-        String res = String.format("%-20s%-20s%-20s%-20s\n%s\n%s", this.getName(), this.getWeaponType(), this.getWeaponDamage(), this.getDamageType(), this.getWeaponProperties());
+        String res = String.format("%-20s%-20s%-20s%-20s\n%s", this.getName(), this.getWeaponType(), this.getWeaponDamage(), this.getDamageType(), this.getWeaponProperties());
         if (!this.getDescription().equals("")) {
             res +=  "\n" + WordWrap.from(this.getDescription()).maxWidth(200).insertHyphens(true).wrap();
         }

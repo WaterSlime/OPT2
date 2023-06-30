@@ -32,7 +32,7 @@ public class Armour extends Item {
 
     @Override
     public String toString() {
-        String res =  String.format("%-20s%-20s%-20s\n%s", this.getName(), this.getArmourType(), this.getArmourClass());
+        String res = String.format("%-20s%-20s%-20s", this.getName(), this.getArmourType(), this.getArmourClass());
         if (!this.getDescription().equals("")) {
             res +=  "\n" + WordWrap.from(this.getDescription()).maxWidth(200).insertHyphens(true).wrap();
         }

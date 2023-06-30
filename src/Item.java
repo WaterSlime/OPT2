@@ -1,3 +1,4 @@
+import org.davidmoten.text.utils.WordWrap;
 import org.json.*;
 
 public class Item {
@@ -9,15 +10,20 @@ public class Item {
         this.description = desc;
     }
     public static Item itemBuilderFromJSONObj(JSONObject obj) {
-        String desc = obj.getJSONArray("desc").get(0).toString();
+        String desc = "";
+        if (obj.getJSONArray("desc").length() != 0) {
+            desc = obj.getJSONArray("desc").get(0).toString();
+        }
         return new Item(obj.get("name").toString(), desc);
     }
 
     @Override
     public String toString() {
-        return "Item{" +
-                "name='" + name + '\'' +
-                '}';
+        String res = this.getName();
+        if (!this.getDescription().equals("")) {
+            res +=  "\n" + WordWrap.from(this.getDescription()).maxWidth(200).insertHyphens(true).wrap();
+        }
+        return res;
     }
 
     public String getName() {
